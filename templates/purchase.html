@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Buyurtma berish</h2>
+    <form method="post" class="border p-4 rounded" style="background-color: #f9f9f9;">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_delivery_method" class="form-label">Yetkazib berish turi:</label>
+            {{ form.delivery_method }}
+        </div>
+
+        <!-- Address field (hidden initially, shown only when delivery method is 'delivery') -->
+        <div id="address-container" class="mb-3" style="display:none;">
+            <label for="id_address" class="form-label">Manzil:</label>
+            {{ form.address }}
+        </div>
+
+        <!-- Shops field (hidden initially, shown only when delivery method is 'pickup') -->
+        <div id="shops-container" class="mb-3" style="display:none;">
+            <label for="id_shops" class="form-label">Do'kon tanlang:</label>
+            {{ form.shops }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_payment_method" class="form-label">To'lov turi:</label>
+            {{ form.payment_method }}
+        </div>
+
+        <!-- Card details (hidden initially, shown only when payment method is 'card') -->
+        <div id="card-details" style="display:none;">
+            <div class="mb-3">
+                <label for="id_card_number" class="form-label">Karta raqami:</label>
+                {{ form.card_number }}
+            </div>
+            <div class="mb-3">
+                <label for="id_card_expiry_date" class="form-label">Karta amal qilish sanasi (MM/YY):</label>
+                {{ form.card_expiry_date }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Buyurtma berish</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var paymentMethodSelect = document.querySelectorAll('input[name="payment_method"]');
+        var deliveryMethodSelect = document.querySelectorAll('input[name="delivery_method"]');
+        var cardDetails = document.getElementById('card-details');
+        var addressContainer = document.getElementById('address-container');
+        var shopsContainer = document.getElementById('shops-container');
+
+        function toggleCardFields() {
+            var selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            cardDetails.style.display = (selectedPaymentMethod === 'card') ? 'block' : 'none';
+        }
+
+        function toggleDeliveryFields() {
+            var selectedDeliveryMethod = document.querySelector('input[name="delivery_method"]:checked').value;
+            addressContainer.style.display = (selectedDeliveryMethod === 'delivery') ? 'block' : 'none';
+            shopsContainer.style.display = (selectedDeliveryMethod === 'pickup') ? 'block' : 'none';
+        }
+
+        paymentMethodSelect.forEach(function (element) {
+            element.addEventListener('change', toggleCardFields);
+        });
+
+        deliveryMethodSelect.forEach(function (element) {
+            element.addEventListener('change', toggleDeliveryFields);
+        });
+
+        // Initial check on page load
+        toggleCardFields();
+        toggleDeliveryFields();
+    });
+</script>
+{% endblock %}

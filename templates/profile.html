@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h2 class="mb-0">Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Username:</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <p>{{ user.username }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Firstname:</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <p>{{ user.first_name }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Lastname:</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <p>{{ user.last_name }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Email:</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <p>{{ user.email }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Phone:</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <p>{{ user.phone }}</p>
+                </div>
+            </div>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

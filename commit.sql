@@ -1,0 +1,1 @@
+SELECT * FROM olma_market_products;

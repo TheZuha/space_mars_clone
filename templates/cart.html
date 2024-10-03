@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load custom_filters %}
+
+{% block content %}
+<ul class="list-unstyled d-flex flex-column align-items-center mt-4">
+    {% for item in cart_items %}
+    <div class="card w-75 mb-3">
+        <div class="card-body d-flex align-items-center">
+            <img src="{{ item.product.image.url }}" alt=""
+                 style="width: 100px; border-radius: 10px; margin-right: 50px">
+            <span>
+                <h5 class="card-title" style="width: 250px;">{{ item.product.name }}</h5>
+                <p class="card-text">{{ item.quantity }} ta</p>
+                <p class="card-text">Kategoriya: {{ item.product.category.name }}</p> <!-- category.name qo'shildi -->
+            </span>
+
+            <span style="margin-left: 300px">
+                <p class="card-text">Asosiy narx: {{ item.product.price|discount_price:item.product.aksiya|format_price }} so'm</p>
+                <p class="card-text">Oxirgi narx:  so'm</p>
+
+                <!-- narxni to'g'rilash -->
+            </span>
+        </div>
+    </div>
+</ul>
+
+<!-- Umumiy narxni bu yerda chiqarish -->
+<div style="margin-left: 200px">
+    <p>Umumiy summa:</p>
+    <p class="ms-2 fw-bold fs-3">{{ total_price|format_price }} so'm</p>
+    <a href="{% url 'purchase' item.product.id %}" class="btn btn-success mt-3">Buyurtma qilish</a>
+</div>
+{% empty %}
+<h1>Hello</h1>
+{% endfor %}
+
+
+{% endblock %}
